@@ -13,7 +13,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-def load_model():
+def load_model(model_name):
     model_url = f'https://raw.githubusercontent.com/yashps7/FEYNN_Labs_Final_Project/main/model.pkl'
     response = requests.get(model_url)
     if response.status_code == 200:
@@ -67,7 +67,7 @@ def main():
         single_pred = np.array(feature_list).reshape(1, -1)
 
     if st.button('Predict'):
-        loaded_model = load_model()
+        loaded_model = load_model('model.pkl')
         prediction = loaded_model.predict(single_pred)
         st.write('## Results 🔍')
         st.success(f"{prediction.item().title()} are recommended by the A.I. for your this season's Agriculture.")
