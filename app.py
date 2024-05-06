@@ -6,6 +6,7 @@ import pickle
 import warnings
 from PIL import Image
 import requests
+import tempfile
 
 st.set_page_config(
     page_title="Crop Recommender",
@@ -15,15 +16,27 @@ st.set_page_config(
 )
 
 def load_model(model_name):
+    # Construct the URL for downloading the model
     model_url = f'https://raw.githubusercontent.com/yashps7/FEYNN_Labs_Final_Project/main/{model_name}'
+    
+    # Download the model from the GitHub repository
     response = requests.get(model_url)
+    
     if response.status_code == 200:
-        # Save the model to a local file
-        with open(model_name, 'wb') as f:
-            f.write(response.content)
-        # Load the model from the local file
-        loaded_model = pickle.load(open(model_name, 'rb'))
-        return loaded_model
+        # Create a temporary file to save the model
+        with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+            temp_file_path = temp_file.name
+            
+            # Save the model to the temporary file
+            temp_file.write(response.content)
+        
+        # Load the model from the temporary file
+        try:
+            loaded_model = pickle.load(open(temp_file_path, 'rb'))
+            return loaded_model
+        except (FileNotFoundError, pickle.UnpicklingError) as e:
+            print(f"Error loading the model: {e}")
+            return None
     else:
         print(f"Failed to download the model from {model_url}.")
         return None
