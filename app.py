@@ -57,7 +57,7 @@ def main():
         single_pred = np.array(feature_list).reshape(1, -1)
 
     if st.button('Predict'):
-        loaded_model = load_model('model.pkl')
+        loaded_model = load_model('https://github.com/yashps7/FEYNN_Labs_Final_Project/blob/main/model.pkl')
         prediction = loaded_model.predict(single_pred)
         st.write('## Results 🔍')
         st.success(f"{prediction.item().title()} are recommended by the A.I. for your this season's Agriculture.")
