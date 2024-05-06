@@ -15,7 +15,7 @@ st.set_page_config(
 )
 
 def load_model(model_name):
-    model_url = f'https://raw.githubusercontent.com/yashps7/FEYNN_Labs_Final_Project/main/model.pkl'
+    model_url = f'https://raw.githubusercontent.com/yashps7/FEYNN_Labs_Final_Project/main/{model_name}'
     response = requests.get(model_url)
     if response.status_code == 200:
         # Save the model to a local file
