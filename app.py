@@ -14,8 +14,18 @@ st.set_page_config(
 )
 
 def load_model(modelfile):
-    loaded_model = pickle.load(open(modelfile, 'rb'))
-    return loaded_model
+    model_url = f'https://raw.githubusercontent.com/yashps7/FEYNN_Labs_Final_Project/main/{model_name}'
+    response = requests.get(model_url)
+    if response.status_code == 200:
+        # Save the model to a local file
+        with open(model_name, 'wb') as f:
+            f.write(response.content)
+        # Load the model from the local file
+        loaded_model = pickle.load(open(model_name, 'rb'))
+        return loaded_model
+    else:
+        print(f"Failed to download the model from {model_url}.")
+        return None
 
 def main():
     # Title
@@ -57,7 +67,7 @@ def main():
         single_pred = np.array(feature_list).reshape(1, -1)
 
     if st.button('Predict'):
-        loaded_model = load_model('https://github.com/yashps7/FEYNN_Labs_Final_Project/blob/main/model.pkl')
+        loaded_model = load_model('model.pkl')
         prediction = loaded_model.predict(single_pred)
         st.write('## Results 🔍')
         st.success(f"{prediction.item().title()} are recommended by the A.I. for your this season's Agriculture.")
