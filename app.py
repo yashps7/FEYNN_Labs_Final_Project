@@ -4,7 +4,6 @@ import numpy as np
 import os
 import pickle
 import warnings
-import streamlit_tags as tags
 from PIL import Image
 
 st.set_page_config(
