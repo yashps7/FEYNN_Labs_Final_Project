@@ -5,6 +5,7 @@ import os
 import pickle
 import warnings
 from PIL import Image
+import requests
 
 st.set_page_config(
     page_title="Crop Recommender",
